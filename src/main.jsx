@@ -8,13 +8,18 @@ const trips = [
   { name: 'Alleppey Backwater Escape', time: '2 days', group: 'Slow travel', photo: 'alleppey.jpg', description: 'Follow palm-lined canals and spend a night by the water.', stops: ['Arrive in Alleppey and explore the canals', 'Enjoy a slow morning before returning to Kochi'] },
   { name: 'Munnar Hill Retreat', time: '3 days', group: 'Mountain getaway', photo: 'munnar.jpg', description: 'Spend a long weekend among rolling tea estates and misty mountain views.', stops: ['Travel from Kochi to Munnar', 'Explore a tea estate and nearby viewpoints', 'Return to Kochi'] },
 ]
-const rides = [
-  { title: 'Tempo Traveller', use: 'Family trips', copy: 'A group travel option for family outings and Kerala sightseeing.' },
-  { title: 'Premium Traveller', use: 'Private tours', copy: 'A passenger van for airport pickups and multi-day journeys.' },
-  { title: 'Large Group Traveller', use: 'Events & group trips', copy: 'A minibus option for shared transfers, celebrations, and group holidays.' },
-]
-const nav = [['Tours', '#tours'], ['Transport', '#transport'], ['About', '#about']]
+const busName = '45-seater bus'
+const busPhoto = import.meta.env.BASE_URL + 'images/yellow-bus.jpg'
+const nav = [['Tours', '#tours'], ['Our bus', '#transport'], ['About', '#about']]
 const businessWhatsApp = (import.meta.env.VITE_WHATSAPP_NUMBER || '').replace(/\D/g, '')
+
+function BusPhoto({ alt, priority = false }) {
+  return (
+    <div className="branded-bus">
+      <img className="bus-photo" src={busPhoto} alt={alt} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : undefined} />
+    </div>
+  )
+}
 
 function Brand() {
   return <a className="brand" href="#home"><span><Mountain size={23} /></span>Palamoottil&nbsp;<span className="brand-accent">Travels</span></a>
@@ -41,7 +46,7 @@ function App() {
       })
     }, { threshold: 0.12 })
 
-    document.querySelectorAll('.benefits-intro, .trip, .ride, .review-card').forEach(element => observer.observe(element))
+    document.querySelectorAll('.benefits-intro, .trip, .bus-feature, .review-card').forEach(element => observer.observe(element))
     return () => observer.disconnect()
   }, [])
 
@@ -77,18 +82,18 @@ function App() {
             <div className="hero-copy">
               <div className="eyebrow hero-label"><MapPin size={15} /> Kerala, India</div>
               <h1 id="hero-title">Effortless travel<br /><span>starts here.</span></h1>
-              <p>Book a Traveller for family trips, airport transfers, and group journeys across Kerala.</p>
+              <p>Hire our yellow 45-seater bus for family trips, airport transfers, and group journeys across Kerala.</p>
               <div className="flex flex-wrap gap-3">
                 <a className="button orange" href="#quick-trip">Plan my ride <ArrowRight size={18} /></a>
-                <a className="button hero-secondary" href="#transport">View travellers</a>
+                <a className="button hero-secondary" href="#transport">See our bus</a>
               </div>
             </div>
             <figure className="hero-vehicle">
-              <div className="ride-photo" role="img" aria-label="Illustration of a white Tempo Traveller" />
-              <figcaption><strong>Tempo Traveller</strong><span>Family trips & group travel</span></figcaption>
+              <BusPhoto alt="Yellow 45-seater Palamoottil Travels bus" priority />
+              <figcaption><strong>45-seater bus</strong><span>Family trips & group travel</span></figcaption>
             </figure>
           </div>
-          <form id="quick-trip" className="quick-trip" onSubmit={event => { event.preventDefault(); enquire(rides[0].title); document.getElementById('enquiry-phone').focus({ preventScroll: true }) }}>
+          <form id="quick-trip" className="quick-trip" onSubmit={event => { event.preventDefault(); enquire(busName); document.getElementById('enquiry-phone').focus({ preventScroll: true }) }}>
             <label>Your name<input name="name" autoComplete="name" placeholder="Enter your name" value={name} onChange={event => setName(event.target.value)} /></label>
             <label>Pickup location<input name="pickup" placeholder="City or pickup point" value={pickup} onChange={event => setPickup(event.target.value)} /></label>
             <label>Travel date<input name="date" type="date" value={date} onChange={event => setDate(event.target.value)} /></label>
@@ -103,17 +108,17 @@ function App() {
               <p className="eyebrow">GROUP TRAVEL WITH PALAMOOTTIL TRAVELS</p>
               <h2 id="benefits-title">Travel together.<br />Plan your own route.</h2>
               <p>From airport pickups to multi-day Kerala tours, plan one ride around your group, your luggage, and the places you want to visit.</p>
-              <a className="text-link" href="#transport">Explore Traveller options <ArrowRight size={17} /></a>
+              <a className="text-link" href="#transport">See the 45-seater bus <ArrowRight size={17} /></a>
             </div>
             <div className="benefits-vehicle">
-              <div className="ride-photo" role="img" aria-label="Illustration of a premium Traveller van" />
+              <BusPhoto alt="" />
             </div>
           </div>
           <div className="benefits-grid">
             {[
               [Bus, 'Travel as a group', 'Keep your family or group together in one vehicle.'],
               [Route, 'Flexible stops', 'Build in sightseeing stops and breaks along the way.'],
-              [Luggage, 'Room for luggage', 'Share your bag count when choosing a Traveller.'],
+              [Luggage, 'Room for luggage', 'Share your bag count when enquiring about the bus.'],
               [Compass, 'Point-to-point rides', 'Arrange pickups for flights, hotels, and events.'],
             ].map(([Icon, title, copy]) => (
               <article key={title}>
@@ -143,22 +148,17 @@ function App() {
           </article>)}
         </div>
       </section>
-      <section className="transport" id="transport">
+      <section className="transport" id="transport" aria-labelledby="bus-title">
         <div className="wrap section">
-          <div className="section-heading"><div><p className="eyebrow">TRANSPORT</p><h2>Featured Travellers.</h2></div><p>Explore group vehicle options and enquire about availability for your dates.</p></div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {rides.map(({ title, use, copy }, index) => (
-              <article className="ride" key={title}>
-                <div className="ride-photo" style={{ '--vehicle-position': (index * 50) + '%' }} role="img" aria-label={'Illustration of a ' + title} />
-                <div className="ride-body">
-                  <p className="eyebrow">{use}</p>
-                  <h3>{title}</h3>
-                  <p>{copy}</p>
-                  <button className="text-link" onClick={() => enquire(title)}>Enquire <ArrowUpRight size={17} /></button>
-                </div>
-              </article>
-            ))}
-          </div>
+          <article className="bus-feature">
+            <BusPhoto alt="Yellow 45-seater Palamoottil Travels bus" />
+            <div>
+              <p className="eyebrow">OUR BUS</p>
+              <h2 id="bus-title">45 seats. One shared ride.</h2>
+              <p>Hire our yellow bus for family outings, weddings, group transfers, and Kerala sightseeing. Share your pickup point, route, and dates to check availability.</p>
+              <button className="button orange" onClick={() => enquire(busName)}>Check availability <ArrowUpRight size={17} /></button>
+            </div>
+          </article>
         </div>
       </section>
       <section id="about" className="wrap section about">
@@ -170,7 +170,7 @@ function App() {
           <div><p className="eyebrow">TRIP PLANNING</p><h2 id="faq-title">Before you go.</h2></div>
           <div>
             <details><summary>Can I customise an itinerary?</summary><p>Yes. Choose a sample tour or select Custom itinerary in the enquiry form. Include your preferred stops, trip length, and group size.</p></details>
-            <details><summary>Which Traveller should I choose?</summary><p>Share your passenger count and luggage needs when you enquire so you can confirm a suitable vehicle and its availability.</p></details>
+            <details><summary>How many passengers can the bus seat?</summary><p>Our bus seats 45 passengers. Include your group size and luggage needs when you enquire.</p></details>
             <details><summary>What information should I include for an airport pickup?</summary><p>Include your arrival airport, flight number, arrival time, passenger count, and drop-off address in the trip notes.</p></details>
           </div>
         </div>
@@ -182,7 +182,7 @@ function App() {
             <div className="grid gap-4 sm:grid-cols-2">
               <label>Your name<input required name="name" autoComplete="name" value={name} onChange={event => setName(event.target.value)} /></label>
               <label>Phone number<input id="enquiry-phone" required name="phone" type="tel" autoComplete="tel" /></label>
-              <label>Interested in<select name="trip" value={selection} onChange={event => setSelection(event.target.value)}><option value="">Choose an option</option>{[...trips.map(trip => trip.name), ...rides.map(ride => ride.title), 'Custom itinerary'].map(item => <option key={item}>{item}</option>)}</select></label>
+              <label>Interested in<select name="trip" value={selection} onChange={event => setSelection(event.target.value)}><option value="">Choose an option</option>{[...trips.map(trip => trip.name), busName, 'Custom itinerary'].map(item => <option key={item}>{item}</option>)}</select></label>
               <label>Pickup location<input name="pickup" value={pickup} onChange={event => setPickup(event.target.value)} /></label><label>Travel date<input name="date" type="date" value={date} onChange={event => setDate(event.target.value)} /></label>
               <label className="sm:col-span-2">Trip notes<textarea name="notes" rows="3" placeholder="Group size, pickup point, or places you’d like to visit" /></label>
             </div>
@@ -221,7 +221,7 @@ function App() {
     <footer className="footer"><div className="wrap footer-grid">
             <div className="footer-brand">
         <Brand />
-        <p>Kerala tours, Traveller hire, and airport transfers.</p>
+        <p>45-seater bus hire for Kerala tours and group transfers.</p>
         <a className="button orange" href="#enquire">Plan your trip <ArrowUpRight size={17} /></a>
       </div>
       <nav aria-label="Footer navigation"><h2>Explore</h2>{nav.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>

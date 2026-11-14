@@ -42,11 +42,6 @@ h3 { font-size: 34px; line-height: 1; margin-block: 8px 12px; }
 .text-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; margin-top: 17px; font-size: 14px; color: #a74313; }
 .text-link:hover { text-decoration: underline; text-underline-offset: 4px; }
 .transport { background: #eee8df; }
-.ride { overflow: hidden; border-radius: 18px; border: 1px solid #262320; background: #262320; }
-.ride-photo { aspect-ratio: 3597 / 1312; background: #f4f3ef url('/images/travellers.png') no-repeat center var(--vehicle-position) / 100% 300%; }
-.ride-body { color: #fffaf4; }
-.ride .eyebrow, .ride .text-link { color: #ffb785; }
-.ride p:not(.eyebrow) { color: #eee2d6; }
 .about { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(25px, 6vw, 90px); }
 .about img { height: clamp(260px, 31vw, 420px); width: 100%; object-fit: cover; border-radius: 20px; }
 .about p:not(.eyebrow), .enquiry p:not(.eyebrow) { margin-top: 18px; }
@@ -78,7 +73,6 @@ form input, form textarea, form select { width: 100%; min-width: 0; min-height: 
 .hero-secondary { border: 1px solid #d9b59f; color: #8d3611; }
 .hero-secondary:hover { background: #f0e4d9; }
 .hero-vehicle { position: relative; padding-bottom: 28px; }
-.hero-vehicle .ride-photo { --vehicle-position: 0%; background-color: transparent; mix-blend-mode: multiply; }
 .hero-vehicle figcaption { position: absolute; right: 0; bottom: 0; padding: 10px 15px; background: #fffdf8; border: 1px solid #eaded3; border-radius: 9px; box-shadow: 0 6px 18px #281c1310; }
 .hero-vehicle figcaption span { display: block; font-size: 13px; color: #61554d; }
 .quick-trip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: end; gap: 14px; padding: clamp(16px, 3vw, 30px); border-radius: 16px; background: #201e1c; color: #fffaf4; }
@@ -132,7 +126,6 @@ form input, form textarea, form select { width: 100%; min-width: 0; min-height: 
 .benefits-intro { display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: clamp(24px, 6vw, 78px); }
 .benefits-intro p:not(.eyebrow) { max-width: 47ch; margin-top: 18px; color: #61554d; line-height: 1.65; }
 .benefits-vehicle { background: #f5e5d9; border-radius: 32px 8px 32px 8px; padding: 24px 14px; }
-.benefits-vehicle .ride-photo { --vehicle-position: 50%; mix-blend-mode: multiply; }
 .benefits-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin-top: 36px; padding-top: 28px; border-top: 1px solid #e8dfd5; }
 .benefit-icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; color: #a74313; background: #f8e9dd; }
 .benefits-grid h3 { font-family: inherit; font-size: 1rem; font-weight: 700; margin-block: 12px 7px; }
@@ -194,3 +187,9 @@ form input, form textarea, form select { width: 100%; min-width: 0; min-height: 
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px 16px; }
   .footer-brand { grid-column: 1 / -1; }
 }
+
+.bus-photo { display: block; width: 100%; height: auto; border-radius: 18px; }
+.hero-vehicle .branded-bus { width: min(100%, calc(52vh * 800 / 580)); margin-inline: auto; }
+.bus-feature { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 64px); align-items: center; }
+.bus-feature p:not(.eyebrow) { margin-block: 18px; max-width: 43ch; color: #61554d; }
+@media (max-width: 720px) { .bus-feature { grid-template-columns: 1fr; } }
