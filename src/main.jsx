@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { ArrowRight, ArrowUpRight, Bus, CalendarDays, Compass, MapPin, Menu, Luggage, Mountain, Route, X } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Bus, CalendarDays, Compass, MapPin, Menu, Luggage, Mountain, Phone, Route, X } from 'lucide-react'
 import './style.css'
 
 const trips = [
@@ -17,7 +17,7 @@ const nav = [['Tours', '#tours'], ['Transport', '#transport'], ['About', '#about
 const businessWhatsApp = (import.meta.env.VITE_WHATSAPP_NUMBER || '').replace(/\D/g, '')
 
 function Brand() {
-  return <a className="brand" href="#home"><span><Mountain size={23} /></span>One<span className="brand-accent">Travels</span></a>
+  return <a className="brand" href="#home"><span><Mountain size={23} /></span>Palamoottil&nbsp;<span className="brand-accent">Travels</span></a>
 }
 
 function App() {
@@ -55,7 +55,7 @@ function App() {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     const fields = [['Name', 'name'], ['Phone', 'phone'], ['Interested in', 'trip'], ['Pickup location', 'pickup'], ['Travel date', 'date'], ['Notes', 'notes']]
-    setSummary(['Hello OneTravels, I’d like to plan a trip.', ...fields.flatMap(([label, key]) => data.get(key)?.trim() ? [label + ': ' + data.get(key).trim()] : [])].join('\n'))
+    setSummary(['Hello Palamoottil Travels, I’d like to plan a trip.', ...fields.flatMap(([label, key]) => data.get(key)?.trim() ? [label + ': ' + data.get(key).trim()] : [])].join('\n'))
     setCopied(false)
   }
 
@@ -100,7 +100,7 @@ function App() {
         <div className="wrap section">
           <div className="benefits-intro">
             <div>
-              <p className="eyebrow">GROUP TRAVEL WITH ONETRAVELS</p>
+              <p className="eyebrow">GROUP TRAVEL WITH PALAMOOTTIL TRAVELS</p>
               <h2 id="benefits-title">Travel together.<br />Plan your own route.</h2>
               <p>From airport pickups to multi-day Kerala tours, plan one ride around your group, your luggage, and the places you want to visit.</p>
               <a className="text-link" href="#transport">Explore Traveller options <ArrowRight size={17} /></a>
@@ -163,7 +163,7 @@ function App() {
       </section>
       <section id="about" className="wrap section about">
         <img src={import.meta.env.BASE_URL + 'images/alleppey.jpg'} alt="Houseboats on the Alleppey backwaters" loading="lazy" />
-        <div><p className="eyebrow">ABOUT ONETRAVELS</p><h2>See more of Kerala at your own pace.</h2><p>OneTravels brings itinerary ideas and transport planning together. Start with a destination you’ve been wanting to see, then shape the route around the time you have and the people travelling with you.</p><a className="text-link" href="#enquire">Start planning <ArrowRight size={18} /></a></div>
+        <div><p className="eyebrow">ABOUT PALAMOOTTIL TRAVELS</p><h2>See more of Kerala at your own pace.</h2><p>Palamoottil Travels brings itinerary ideas and transport planning together. Start with a destination you’ve been wanting to see, then shape the route around the time you have and the people travelling with you.</p><a className="text-link" href="#enquire">Start planning <ArrowRight size={18} /></a></div>
       </section>
       <section className="faq" aria-labelledby="faq-title">
         <div className="wrap section faq-layout">
@@ -218,10 +218,25 @@ function App() {
         </div>
       </section>
     </main>
-    <footer className="wrap footer">
-      <Brand /><nav aria-label="Footer navigation">{nav.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
+    <footer className="footer"><div className="wrap footer-grid">
+            <div className="footer-brand">
+        <Brand />
+        <p>Kerala tours, Traveller hire, and airport transfers.</p>
+        <a className="button orange" href="#enquire">Plan your trip <ArrowUpRight size={17} /></a>
+      </div>
+      <nav aria-label="Footer navigation"><h2>Explore</h2>{nav.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
+      <div>
+        <h2>Get in touch</h2>
+        <address>
+          <p><MapPin size={18} aria-hidden="true" /> <span>Choonad, Oachira<br />Kollam, Kerala</span></p>
+          <p><Phone size={18} aria-hidden="true" /> <span><a href="tel:+919495658241">9495658241</a><a href="tel:+919447348005">9447348005</a></span></p>
+        </address>
+      </div>
+    </div>
+    <div className="wrap footer-bottom">
+      <small>© {new Date().getFullYear()} Palamoottil Travels</small>
       <details><summary>Photo credits</summary><p><a href="https://commons.wikimedia.org/wiki/File:Munnar_Tea_Plantations-WUS06964-Pano.jpg">Munnar by Rainer Halama</a> · <a href="https://commons.wikimedia.org/wiki/File:Backwaters_of_Alleppey.jpg">Alleppey by Antonysamy Xavier</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Photos cropped for display.</p></details>
-    </footer>
+    </div></footer>
   </>
 }
 
