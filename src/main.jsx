@@ -11,7 +11,7 @@ const trips = [
 const busName = '45-seater bus'
 const busPhoto = import.meta.env.BASE_URL + 'images/yellow-bus.jpg'
 const nav = [['Tours', '#tours'], ['Our bus', '#transport'], ['About', '#about']]
-const businessWhatsApp = (import.meta.env.VITE_WHATSAPP_NUMBER || '').replace(/\D/g, '')
+const whatsappUrl = 'https://wa.me/919495658241'
 
 function BusPhoto({ alt, priority = false }) {
   return (
@@ -31,8 +31,6 @@ function App() {
   const [name, setName] = useState('')
   const [pickup, setPickup] = useState('')
   const [date, setDate] = useState('')
-  const [summary, setSummary] = useState('')
-  const [copied, setCopied] = useState(false)
   const [activeTrip, setActiveTrip] = useState(null)
 
   useEffect(() => {
@@ -52,7 +50,6 @@ function App() {
 
   function enquire(value) {
     setSelection(value)
-    setSummary('')
     document.querySelector('#enquire').scrollIntoView()
   }
 
@@ -60,8 +57,8 @@ function App() {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     const fields = [['Name', 'name'], ['Phone', 'phone'], ['Interested in', 'trip'], ['Pickup location', 'pickup'], ['Travel date', 'date'], ['Notes', 'notes']]
-    setSummary(['Hello Palamoottil Travels, I’d like to plan a trip.', ...fields.flatMap(([label, key]) => data.get(key)?.trim() ? [label + ': ' + data.get(key).trim()] : [])].join('\n'))
-    setCopied(false)
+    const message = ['Hello Palamoottil Travels, I’d like to plan a trip.', ...fields.flatMap(([label, key]) => data.get(key)?.trim() ? [label + ': ' + data.get(key).trim()] : [])].join('\n')
+    window.location.assign(whatsappUrl + '?text=' + encodeURIComponent(message))
   }
 
   return <>
@@ -186,11 +183,7 @@ function App() {
               <label>Pickup location<input name="pickup" value={pickup} onChange={event => setPickup(event.target.value)} /></label><label>Travel date<input name="date" type="date" value={date} onChange={event => setDate(event.target.value)} /></label>
               <label className="sm:col-span-2">Trip notes<textarea name="notes" rows="3" placeholder="Group size, pickup point, or places you’d like to visit" /></label>
             </div>
-            <button className="button orange mt-5">Prepare enquiry <ArrowRight size={18} /></button>
-            {summary && <div className="summary">
-              <label>Enquiry summary<textarea readOnly value={summary} rows={6} /></label>
-              {businessWhatsApp ? <a className="button orange" href={'https://wa.me/' + businessWhatsApp + '?text=' + encodeURIComponent(summary)} target="_blank" rel="noreferrer">Open WhatsApp <ArrowUpRight size={18} /></a> : <><p>Copy the enquiry to share it directly. Online sending is currently unavailable.</p><button type="button" className="button outline" onClick={async () => { try { await navigator.clipboard.writeText(summary); setCopied(true) } catch { setCopied(false) } }}>{copied ? 'Copied' : 'Copy enquiry'}</button></>}
-            </div>}
+            <button className="button orange mt-5">Continue to WhatsApp <ArrowRight size={18} /></button>
           </form>
         </div>
       </section>
@@ -237,6 +230,11 @@ function App() {
       <small>© {new Date().getFullYear()} Palamoottil Travels</small>
       <details><summary>Photo credits</summary><p><a href="https://commons.wikimedia.org/wiki/File:Munnar_Tea_Plantations-WUS06964-Pano.jpg">Munnar by Rainer Halama</a> · <a href="https://commons.wikimedia.org/wiki/File:Backwaters_of_Alleppey.jpg">Alleppey by Antonysamy Xavier</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Photos cropped for display.</p></details>
     </div></footer>
+    <a className="whatsapp-chat" href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Chat with Palamoottil Travels on WhatsApp">
+      <svg width="29" height="29" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 2a9.8 9.8 0 0 0-8.5 14.7L2 22l5.5-1.4A9.8 9.8 0 1 0 12 2Zm0 17.8a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 19.8Zm4.5-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.1-.3.1-.5 0a6.6 6.6 0 0 1-3.2-2.8c-.2-.3 0-.4.1-.5l.5-.6c.1-.2.1-.3 0-.5l-.8-1.9c-.1-.4-.3-.4-.5-.4h-.4c-.2 0-.4.1-.7.3-.2.3-.8.8-.8 2s.8 2.3 1 2.5c.1.1 1.6 2.6 4.1 3.6 1.5.7 2.1.7 2.8.6.4 0 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.3-.4Z" />
+      </svg>
+    </a>
   </>
 }
 
