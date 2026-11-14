@@ -157,3 +157,20 @@ form input, form textarea, form select { width: 100%; min-width: 0; min-height: 
   .hero-vehicle { animation-delay: .15s; }
   .quick-trip { animation-delay: .3s; }
 }
+
+.reviews { background: #f1e7dc; }
+.review-card { overflow: hidden; border: 1px solid #dfcdbd; border-radius: 18px; background: #fffdf8; }
+.review-body { padding: 22px; }
+.review-body blockquote { font-size: 1.35rem; line-height: 1.35; }
+.review-body figcaption { margin-top: 16px; color: #a74313; font-weight: 600; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .entered { animation: hero-enter .55s cubic-bezier(.2, .65, .3, 1) both; }
+  :is(.trip, .ride, .review-card).entered:nth-child(2) { animation-delay: .08s; }
+  :is(.trip, .ride, .review-card).entered:nth-child(3) { animation-delay: .16s; }
+  .button svg, .text-link svg { transition: transform .2s ease; }
+  :is(.button, .text-link):is(:hover, :focus-visible) svg { transform: translateX(3px); }
+}
+
+.review-avatar { display: block; width: 64px; height: 64px; object-fit: cover; border-radius: 50%; margin-bottom: 16px; background: #f1e7dc; }
+.review-body figcaption span { display: block; color: #61554d; font-weight: 400; }

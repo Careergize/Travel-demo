@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { ArrowRight, ArrowUpRight, Bus, CalendarDays, Compass, MapPin, Menu, Luggage, Mountain, Route, X } from 'lucide-react'
 import './style.css'
@@ -29,6 +29,21 @@ function App() {
   const [summary, setSummary] = useState('')
   const [copied, setCopied] = useState(false)
   const [activeTrip, setActiveTrip] = useState(null)
+
+  useEffect(() => {
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return
+        entry.target.classList.add('entered')
+        observer.unobserve(entry.target)
+      })
+    }, { threshold: 0.12 })
+
+    document.querySelectorAll('.benefits-intro, .trip, .ride, .review-card').forEach(element => observer.observe(element))
+    return () => observer.disconnect()
+  }, [])
 
   function enquire(value) {
     setSelection(value)
@@ -177,6 +192,29 @@ function App() {
               {businessWhatsApp ? <a className="button orange" href={'https://wa.me/' + businessWhatsApp + '?text=' + encodeURIComponent(summary)} target="_blank" rel="noreferrer">Open WhatsApp <ArrowUpRight size={18} /></a> : <><p>Copy the enquiry to share it directly. Online sending is currently unavailable.</p><button type="button" className="button outline" onClick={async () => { try { await navigator.clipboard.writeText(summary); setCopied(true) } catch { setCopied(false) } }}>{copied ? 'Copied' : 'Copy enquiry'}</button></>}
             </div>}
           </form>
+        </div>
+      </section>
+      <section className="reviews" aria-labelledby="reviews-title">
+        <div className="wrap section">
+          <div className="section-heading">
+            <div><h2 id="reviews-title">Traveller stories.</h2></div>
+            <p>Sample testimonials with placeholder portraits.</p>
+          </div>
+          <div className="grid gap-5 md:grid-cols-3">
+            {[
+              ['12', 'Varun Vasanthan', 'Family getaway', 'We had time for a houseboat ride and a long lunch by the water. The kids loved it.'],
+              ['47', 'Sangeetha', 'Munnar weekend', 'Stopping among the tea gardens was our favourite part of the drive.'],
+              ['33', 'Gokhul Kumar', 'Group pickup', 'Travelling together made it easier to keep track of everyone and their bags.'],
+            ].map(([portrait, name, trip, quote]) => (
+              <figure className="review-card" key={name}>
+                <div className="review-body">
+                  <img className="review-avatar" src={'https://i.pravatar.cc/160?img=' + portrait} alt="" width="64" height="64" loading="lazy" />
+                  <blockquote>“{quote}”</blockquote>
+                  <figcaption><strong>{name}</strong><span>{trip} · Sample review</span></figcaption>
+                </div>
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
     </main>
